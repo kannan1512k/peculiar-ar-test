@@ -1,89 +1,539 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Peculiar AR</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+  <title>Peculiar Print Hub AR</title>
+
+  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+  <!-- MindAR -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
+
   <style>
-    body {
-      margin: 0;
-      overflow: hidden;
+
+    * {
+      box-sizing: border-box;
     }
 
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: Arial, sans-serif;
+    }
+
+
+    /* Scanner message */
+
     #message {
+
       position: fixed;
+
       top: 20px;
       left: 0;
       right: 0;
+
       text-align: center;
-      color: white;
+
+      color: #fff;
+
       font-size: 18px;
-      font-family: Arial, sans-serif;
-      z-index: 10;
-      text-shadow: 0 2px 4px black;
+      font-weight: bold;
+
+      z-index: 20;
+
+      text-shadow:
+        0 2px 5px #000;
+
     }
+
+
+    /* Full screen video */
+
+    #videoScreen {
+
+      display: none;
+
+      position: fixed;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: #000;
+
+      z-index: 1000;
+
+      align-items: center;
+      justify-content: center;
+
+    }
+
+
+    #mainVideo {
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+
+      background: #000;
+
+    }
+
+
+    /* Sound button */
+
+    #soundButton {
+
+      position: absolute;
+
+      left: 50%;
+
+      bottom: 40px;
+
+      transform: translateX(-50%);
+
+      padding: 15px 25px;
+
+      border: none;
+
+      border-radius: 30px;
+
+      background: #fff;
+
+      color: #000;
+
+      font-size: 17px;
+
+      font-weight: bold;
+
+      z-index: 1100;
+
+    }
+
+
+    /* Close button */
+
+    #closeButton {
+
+      position: absolute;
+
+      top: 25px;
+
+      right: 20px;
+
+      width: 45px;
+      height: 45px;
+
+      border-radius: 50%;
+
+      border: 1px solid #fff;
+
+      background: rgba(0,0,0,0.7);
+
+      color: #fff;
+
+      font-size: 22px;
+
+      z-index: 1100;
+
+    }
+
+
+    /* Replay button */
+
+    #replayButton {
+
+      display: none;
+
+      position: absolute;
+
+      left: 50%;
+
+      bottom: 40px;
+
+      transform: translateX(-50%);
+
+      padding: 15px 25px;
+
+      border: none;
+
+      border-radius: 30px;
+
+      background: #fff;
+
+      color: #000;
+
+      font-size: 17px;
+
+      font-weight: bold;
+
+      z-index: 1100;
+
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
-  <div id="message">Point your camera at the printed photo</div>
+
+  <!-- Scanner message -->
+
+  <div id="message">
+    Point your camera at the printed photo
+  </div>
+
+
+  <!-- FULL SCREEN VIDEO -->
+
+  <div id="videoScreen">
+
+
+    <video
+      id="mainVideo"
+      src="./video1.mp4"
+      preload="auto"
+      playsinline
+      webkit-playsinline
+      muted>
+    </video>
+
+
+    <!-- Sound -->
+
+    <button id="soundButton">
+      🔊 TAP FOR SOUND
+    </button>
+
+
+    <!-- Replay -->
+
+    <button id="replayButton">
+      ▶️ PLAY AGAIN
+    </button>
+
+
+    <!-- Close -->
+
+    <button id="closeButton">
+      ✕
+    </button>
+
+
+  </div>
+
+
+
+  <!-- MINDAR CAMERA -->
 
   <a-scene
-    mindar-image="imageTargetSrc: ./targets.mind; autoStart: true;"
+
+    mindar-image="
+      imageTargetSrc: ./targets.mind;
+      autoStart: true;
+    "
+
     color-space="sRGB"
-    renderer="colorManagement: true, physicallyCorrectLights"
+
+    renderer="
+      colorManagement: true;
+      physicallyCorrectLights;
+    "
+
     vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false">
 
-    <a-assets>
-      <video
-        id="video1"
-        src="./video1.mp4"
-        preload="auto"
-        loop
-        muted
-        playsinline
-        webkit-playsinline>
-      </video>
-    </a-assets>
+    device-orientation-permission-ui="enabled: false"
 
-    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+  >
 
-    <a-entity mindar-image-target="targetIndex: 0">
 
-      <a-video
-        id="arVideo"
-        src="#video1"
-        width="1.5"
-        height="0.844"
-        position="0 0 0">
-      </a-video>
+    <a-camera
+      position="0 0 0"
+      look-controls="enabled: false">
+    </a-camera>
 
+
+    <!-- PHOTO TARGET -->
+
+    <a-entity
+      mindar-image-target="targetIndex: 0">
     </a-entity>
+
 
   </a-scene>
 
+
+
   <script>
-    const target = document.querySelector('[mindar-image-target]');
-    const video = document.querySelector('#video1');
-    const message = document.querySelector('#message');
 
-    target.addEventListener('targetFound', () => {
-      message.innerHTML = '🎬 VIDEO PLAYING';
-      video.play();
-    });
 
-    target.addEventListener('targetLost', () => {
-      message.innerHTML = 'Point your camera at the printed photo';
-      video.pause();
-    });
+    const target =
+      document.querySelector(
+        '[mindar-image-target]'
+      );
+
+
+    const video =
+      document.getElementById(
+        'mainVideo'
+      );
+
+
+    const videoScreen =
+      document.getElementById(
+        'videoScreen'
+      );
+
+
+    const message =
+      document.getElementById(
+        'message'
+      );
+
+
+    const soundButton =
+      document.getElementById(
+        'soundButton'
+      );
+
+
+    const replayButton =
+      document.getElementById(
+        'replayButton'
+      );
+
+
+    const closeButton =
+      document.getElementById(
+        'closeButton'
+      );
+
+
+
+    /*
+
+      PHOTO DETECTED
+
+      Photo கண்டுபிடித்தவுடன்
+      Full screen video open ஆகும்.
+
+    */
+
+    target.addEventListener(
+      'targetFound',
+      () => {
+
+
+        message.innerHTML =
+          '🎬 VIDEO PLAYING';
+
+
+        videoScreen.style.display =
+          'flex';
+
+
+        replayButton.style.display =
+          'none';
+
+
+        soundButton.style.display =
+          'block';
+
+
+        video.currentTime = 0;
+
+
+        /*
+          Browser autoplay restriction
+          காரணமாக ஆரம்பத்தில் muted.
+        */
+
+        video.muted = true;
+
+
+        video.play().catch(
+          (error) => {
+
+            console.log(
+              'Autoplay blocked:',
+              error
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+
+    /*
+
+      IMPORTANT
+
+      Photo-வை camera-விலிருந்து
+      எடுத்தாலும் VIDEO STOP ஆகாது.
+
+    */
+
+    target.addEventListener(
+      'targetLost',
+      () => {
+
+        message.innerHTML = '';
+
+        // NOTHING ELSE
+
+        // Video தொடர்ந்து ஓடும்.
+
+      }
+    );
+
+
+
+    /*
+
+      SOUND ON
+
+    */
+
+    soundButton.addEventListener(
+      'click',
+      () => {
+
+
+        video.muted = false;
+
+
+        video.play().catch(
+          (error) => {
+
+            console.log(error);
+
+          }
+        );
+
+
+        soundButton.style.display =
+          'none';
+
+      }
+    );
+
+
+
+    /*
+
+      REPLAY
+
+    */
+
+    replayButton.addEventListener(
+      'click',
+      () => {
+
+
+        video.currentTime = 0;
+
+
+        video.muted = false;
+
+
+        video.play();
+
+
+        replayButton.style.display =
+          'none';
+
+      }
+    );
+
+
+
+    /*
+
+      VIDEO FINISHED
+
+    */
+
+    video.addEventListener(
+      'ended',
+      () => {
+
+
+        replayButton.style.display =
+          'block';
+
+
+        soundButton.style.display =
+          'none';
+
+      }
+    );
+
+
+
+    /*
+
+      CLOSE VIDEO
+
+    */
+
+    closeButton.addEventListener(
+      'click',
+      () => {
+
+
+        video.pause();
+
+
+        video.currentTime = 0;
+
+
+        video.muted = true;
+
+
+        videoScreen.style.display =
+          'none';
+
+
+        soundButton.style.display =
+          'block';
+
+
+        replayButton.style.display =
+          'none';
+
+
+        message.innerHTML =
+          'Point your camera at the printed photo';
+
+      }
+    );
+
+
   </script>
 
+
 </body>
+
 </html>
