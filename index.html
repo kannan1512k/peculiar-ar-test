@@ -2,92 +2,86 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Peculiar Print Hub AR</title>
+  <title>Peculiar AR</title>
 
-  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-
-  <!-- MindAR -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
   <style>
     body {
       margin: 0;
       overflow: hidden;
-      background: #000;
-      font-family: Arial, sans-serif;
     }
 
     #message {
       position: fixed;
       top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      background: rgba(0,0,0,0.75);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-size: 15px;
+      left: 0;
+      right: 0;
       text-align: center;
+      color: white;
+      font-size: 18px;
+      font-family: Arial, sans-serif;
+      z-index: 10;
+      text-shadow: 0 2px 4px black;
     }
   </style>
 </head>
 
 <body>
 
-  <div id="message">
-    Point your camera at the printed photo
-  </div>
+  <div id="message">Point your camera at the printed photo</div>
 
   <a-scene
-    mindar-image="imageTargetSrc: ./targets.mind;
-    autoStart: true;
-    uiLoading: no;
-    uiScanning: no;
-    uiError: no;"
+    mindar-image="imageTargetSrc: ./targets.mind; autoStart: true;"
     color-space="sRGB"
-    renderer="colorManagement: true"
+    renderer="colorManagement: true, physicallyCorrectLights"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false">
 
-    <a-camera
-      position="0 0 0"
-      look-controls="enabled: false">
-    </a-camera>
+    <a-assets>
+      <video
+        id="video1"
+        src="./video1.mp4"
+        preload="auto"
+        loop
+        muted
+        playsinline
+        webkit-playsinline>
+      </video>
+    </a-assets>
 
-    <!-- First image target -->
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
     <a-entity mindar-image-target="targetIndex: 0">
 
-      <!-- Temporary test message -->
-      <a-text
-        value="PHOTO DETECTED!"
-        align="center"
-        color="#FFFFFF"
-        width="2"
+      <a-video
+        id="arVideo"
+        src="#video1"
+        width="1.5"
+        height="0.844"
         position="0 0 0">
-      </a-text>
+      </a-video>
 
     </a-entity>
 
   </a-scene>
 
   <script>
-    const message = document.getElementById("message");
-    const target = document.querySelector(
-      '[mindar-image-target="targetIndex: 0"]'
-    );
+    const target = document.querySelector('[mindar-image-target]');
+    const video = document.querySelector('#video1');
+    const message = document.querySelector('#message');
 
-    target.addEventListener("targetFound", () => {
-      message.innerText = "✅ PHOTO DETECTED!";
+    target.addEventListener('targetFound', () => {
+      message.innerHTML = '🎬 VIDEO PLAYING';
+      video.play();
     });
 
-    target.addEventListener("targetLost", () => {
-      message.innerText =
-        "Point your camera at the printed photo";
+    target.addEventListener('targetLost', () => {
+      message.innerHTML = 'Point your camera at the printed photo';
+      video.pause();
     });
   </script>
 
