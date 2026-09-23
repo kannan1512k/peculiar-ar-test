@@ -1,49 +1,85 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
 
-  <title>Camera Test</title>
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Peculiar Print Hub AR</title>
+
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+  <!-- MindAR -->
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
   <style>
-    html, body {
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
-      background: black;
       overflow: hidden;
+      background: #000;
+      font-family: Arial, sans-serif;
     }
 
-    #camera {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    /* START SCREEN */
 
-    #start {
+    #startScreen {
       position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      inset: 0;
+      background: #000;
+      z-index: 2000;
 
-      padding: 18px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-      font-size: 20px;
-      font-weight: bold;
+      color: white;
+      text-align: center;
+    }
 
+    #startScreen h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    #startScreen p {
+      font-size: 16px;
+      opacity: 0.8;
+      margin-bottom: 30px;
+    }
+
+    #startButton {
       border: none;
-      border-radius: 35px;
+      border-radius: 40px;
+
+      padding: 17px 32px;
 
       background: white;
       color: black;
 
-      z-index: 10;
+      font-size: 19px;
+      font-weight: bold;
     }
+
+    /* SCANNER MESSAGE */
 
     #message {
       position: fixed;
+
       top: 20px;
       left: 0;
       right: 0;
@@ -51,72 +87,445 @@
       text-align: center;
 
       color: white;
+
       font-size: 18px;
       font-weight: bold;
 
-      z-index: 20;
+      z-index: 100;
 
       text-shadow: 0 2px 5px black;
     }
+
+    /* VIDEO SCREEN */
+
+    #videoScreen {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: black;
+
+      z-index: 1500;
+
+      align-items: center;
+      justify-content: center;
+    }
+
+    #mainVideo {
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+
+      background: black;
+    }
+
+    /* SOUND BUTTON */
+
+    #soundButton {
+
+      position: absolute;
+
+      bottom: 45px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      border: none;
+
+      border-radius: 35px;
+
+      padding: 15px 25px;
+
+      background: white;
+      color: black;
+
+      font-size: 17px;
+      font-weight: bold;
+
+      z-index: 1600;
+    }
+
+    /* REPLAY */
+
+    #replayButton {
+
+      display: none;
+
+      position: absolute;
+
+      bottom: 45px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      border: none;
+
+      border-radius: 35px;
+
+      padding: 15px 25px;
+
+      background: white;
+      color: black;
+
+      font-size: 17px;
+      font-weight: bold;
+
+      z-index: 1600;
+    }
+
+    /* CLOSE */
+
+    #closeButton {
+
+      position: absolute;
+
+      top: 25px;
+      right: 20px;
+
+      width: 46px;
+      height: 46px;
+
+      border-radius: 50%;
+
+      border: 1px solid white;
+
+      background: rgba(0,0,0,0.7);
+
+      color: white;
+
+      font-size: 22px;
+
+      z-index: 1600;
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
-  <div id="message">
-    Camera Test
+
+  <!-- START SCREEN -->
+
+  <div id="startScreen">
+
+    <h1>📸 Peculiar AR</h1>
+
+    <p>
+      Scan the printed photo<br>
+      to watch the related video
+    </p>
+
+    <button id="startButton">
+      📷 START SCANNER
+    </button>
+
   </div>
 
-  <button id="start">
-    📷 START CAMERA
-  </button>
 
-  <video
-    id="camera"
-    autoplay
-    playsinline
-    muted>
-  </video>
+  <!-- SCANNER MESSAGE -->
+
+  <div id="message">
+    Point your camera at the printed photo
+  </div>
+
+
+  <!-- FULL SCREEN VIDEO -->
+
+  <div id="videoScreen">
+
+    <video
+      id="mainVideo"
+      src="./video1.mp4"
+      preload="auto"
+      playsinline
+      webkit-playsinline
+      muted>
+    </video>
+
+
+    <button id="soundButton">
+      🔊 TAP FOR SOUND
+    </button>
+
+
+    <button id="replayButton">
+      ▶️ PLAY AGAIN
+    </button>
+
+
+    <button id="closeButton">
+      ✕
+    </button>
+
+  </div>
+
+
+  <!-- MINDAR -->
+
+  <a-scene
+
+    mindar-image="
+      imageTargetSrc: ./targets.mind;
+      autoStart: false;
+    "
+
+    color-space="sRGB"
+
+    renderer="
+      colorManagement: true;
+      physicallyCorrectLights;
+    "
+
+    vr-mode-ui="enabled: false"
+
+    device-orientation-permission-ui="enabled: false">
+
+    <a-camera
+      position="0 0 0"
+      look-controls="enabled: false">
+    </a-camera>
+
+    <a-entity
+      mindar-image-target="targetIndex: 0">
+    </a-entity>
+
+  </a-scene>
+
 
   <script>
 
-    const camera = document.getElementById("camera");
-    const start = document.getElementById("start");
-    const message = document.getElementById("message");
+    const scene =
+      document.querySelector("a-scene");
 
-    start.addEventListener("click", async () => {
+    const startScreen =
+      document.getElementById("startScreen");
 
-      try {
+    const startButton =
+      document.getElementById("startButton");
 
-        const stream =
-          await navigator.mediaDevices.getUserMedia({
-            video: {
-              facingMode: {
-                ideal: "environment"
-              }
-            },
-            audio: false
-          });
+    const message =
+      document.getElementById("message");
 
-        camera.srcObject = stream;
+    const target =
+      document.querySelector(
+        "[mindar-image-target]"
+      );
 
-        start.style.display = "none";
+    const videoScreen =
+      document.getElementById("videoScreen");
 
-        message.innerHTML =
-          "✅ CAMERA WORKING";
+    const video =
+      document.getElementById("mainVideo");
 
-      } catch (error) {
+    const soundButton =
+      document.getElementById("soundButton");
 
-        message.innerHTML =
-          "❌ CAMERA ERROR: " + error.name;
+    const replayButton =
+      document.getElementById("replayButton");
 
-        console.log(error);
+    const closeButton =
+      document.getElementById("closeButton");
+
+
+    /*
+      START SCANNER
+    */
+
+    startButton.addEventListener(
+      "click",
+      async () => {
+
+        try {
+
+          startScreen.style.display =
+            "none";
+
+          message.innerHTML =
+            "📷 Point your camera at the printed photo";
+
+          const mindarSystem =
+            scene.systems["mindar-image"];
+
+          await mindarSystem.start();
+
+        } catch (error) {
+
+          console.log(error);
+
+          startScreen.style.display =
+            "flex";
+
+          message.innerHTML =
+            "Camera could not start";
+
+        }
 
       }
+    );
 
-    });
+
+    /*
+      PHOTO DETECTED
+    */
+
+    target.addEventListener(
+      "targetFound",
+      () => {
+
+        message.innerHTML =
+          "🎬 VIDEO PLAYING";
+
+        videoScreen.style.display =
+          "flex";
+
+        soundButton.style.display =
+          "block";
+
+        replayButton.style.display =
+          "none";
+
+        video.currentTime = 0;
+
+        /*
+          Start muted because
+          mobile browsers restrict
+          autoplay with sound.
+        */
+
+        video.muted = true;
+
+        video.play().catch(
+          error => {
+            console.log(
+              "Autoplay:",
+              error
+            );
+          }
+        );
+
+      }
+    );
+
+
+    /*
+      IMPORTANT:
+
+      Photo camera-வில் இருந்து
+      மறைந்தாலும் video STOP ஆகாது.
+    */
+
+    target.addEventListener(
+      "targetLost",
+      () => {
+
+        message.innerHTML = "";
+
+        /*
+          DO NOT pause video.
+        */
+
+      }
+    );
+
+
+    /*
+      SOUND ON
+    */
+
+    soundButton.addEventListener(
+      "click",
+      () => {
+
+        video.muted = false;
+
+        video.play();
+
+        soundButton.style.display =
+          "none";
+
+      }
+    );
+
+
+    /*
+      VIDEO FINISHED
+    */
+
+    video.addEventListener(
+      "ended",
+      () => {
+
+        soundButton.style.display =
+          "none";
+
+        replayButton.style.display =
+          "block";
+
+      }
+    );
+
+
+    /*
+      REPLAY
+    */
+
+    replayButton.addEventListener(
+      "click",
+      () => {
+
+        video.currentTime = 0;
+
+        video.muted = false;
+
+        video.play();
+
+        replayButton.style.display =
+          "none";
+
+      }
+    );
+
+
+    /*
+      CLOSE VIDEO
+    */
+
+    closeButton.addEventListener(
+      "click",
+      () => {
+
+        video.pause();
+
+        video.currentTime = 0;
+
+        video.muted = true;
+
+        videoScreen.style.display =
+          "none";
+
+        soundButton.style.display =
+          "block";
+
+        replayButton.style.display =
+          "none";
+
+        message.innerHTML =
+          "📷 Point your camera at the printed photo";
+
+      }
+    );
 
   </script>
 
 </body>
+
 </html>
