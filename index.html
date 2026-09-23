@@ -733,12 +733,13 @@
            ============================ */
 
         startButton.addEventListener(
-          "click",
-          function () {
+        startButton.onclick = function () {
 
-            console.log(
-              "START SCANNER clicked"
-            );
+  alert("BUTTON WORKING");
+
+  document.getElementById("startScreen").style.display = "none";
+
+};
 
 
             /*
