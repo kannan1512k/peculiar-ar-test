@@ -16,10 +16,6 @@
 
   <style>
 
-    * {
-      box-sizing: border-box;
-    }
-
     html,
     body {
       margin: 0;
@@ -31,14 +27,9 @@
       font-family: Arial, sans-serif;
     }
 
-    /* START SCREEN */
-
     #startScreen {
       position: fixed;
       inset: 0;
-
-      width: 100%;
-      height: 100%;
 
       background: #000;
 
@@ -48,57 +39,38 @@
       justify-content: center;
 
       text-align: center;
-      color: #fff;
+      color: white;
 
       z-index: 99999;
-
-      pointer-events: auto;
     }
 
     #startScreen h1 {
-      margin: 0 0 12px;
       font-size: 28px;
+      margin-bottom: 10px;
     }
 
     #startScreen p {
-      margin: 0 20px 30px;
       font-size: 16px;
       line-height: 1.5;
       opacity: 0.8;
+      margin-bottom: 30px;
     }
 
     #startButton {
-      display: block;
-
-      min-width: 210px;
+      min-width: 220px;
       min-height: 55px;
-
-      padding: 15px 25px;
 
       border: none;
       border-radius: 35px;
 
-      background: #fff;
-      color: #000;
+      background: white;
+      color: black;
 
       font-size: 18px;
       font-weight: bold;
 
-      cursor: pointer;
-
-      pointer-events: auto;
       touch-action: manipulation;
-
-      -webkit-tap-highlight-color: transparent;
     }
-
-    #status {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #ccc;
-    }
-
-    /* SCANNER MESSAGE */
 
     #message {
       position: fixed;
@@ -117,23 +89,15 @@
       z-index: 5000;
 
       text-shadow: 0 2px 5px black;
-
-      pointer-events: none;
     }
-
-    /* VIDEO */
 
     #videoScreen {
       display: none;
 
       position: fixed;
-
       inset: 0;
 
-      width: 100%;
-      height: 100%;
-
-      background: #000;
+      background: black;
 
       z-index: 90000;
 
@@ -147,7 +111,7 @@
 
       object-fit: contain;
 
-      background: #000;
+      background: black;
     }
 
     #soundButton {
@@ -234,18 +198,12 @@
 
     <p>
       Scan the printed photo<br>
-      and watch its related video
+      to watch its related video
     </p>
 
-    <button
-      id="startButton"
-      type="button">
-
+    <button id="startButton" type="button">
       📷 START SCANNER
-
     </button>
-
-    <div id="status"></div>
 
   </div>
 
@@ -270,28 +228,16 @@
       muted>
     </video>
 
-    <button
-      id="soundButton"
-      type="button">
-
+    <button id="soundButton" type="button">
       🔊 TAP FOR SOUND
-
     </button>
 
-    <button
-      id="replayButton"
-      type="button">
-
+    <button id="replayButton" type="button">
       ▶️ PLAY AGAIN
-
     </button>
 
-    <button
-      id="closeButton"
-      type="button">
-
+    <button id="closeButton" type="button">
       ✕
-
     </button>
 
   </div>
@@ -317,14 +263,17 @@
 
     device-orientation-permission-ui="enabled: false">
 
+
     <a-camera
       position="0 0 0"
       look-controls="enabled: false">
     </a-camera>
 
+
     <a-entity
       mindar-image-target="targetIndex: 0">
     </a-entity>
+
 
   </a-scene>
 
@@ -339,9 +288,6 @@
 
     const startButton =
       document.getElementById("startButton");
-
-    const status =
-      document.getElementById("status");
 
     const message =
       document.getElementById("message");
@@ -367,128 +313,53 @@
       document.getElementById("closeButton");
 
 
-    let scannerStarted = false;
-
-
     /*
       START SCANNER
+
+      Camera permission + MindAR
+      are handled by MindAR itself.
     */
 
     startButton.addEventListener(
       "click",
-      async function () {
-
-        if (scannerStarted) {
-          return;
-        }
+      function () {
 
         startButton.disabled = true;
 
-        status.innerHTML =
-          "Starting camera...";
+        message.innerHTML =
+          "📷 Starting camera...";
+
+
+        const arSystem =
+          scene.systems["mindar-image-system"];
+
+
+        if (!arSystem) {
+
+          alert(
+            "MindAR system is not ready."
+          );
+
+          startButton.disabled = false;
+
+          return;
+
+        }
 
 
         try {
 
-          /*
-            First request camera permission
-            directly from the user's tap.
-          */
-
-          const permissionStream =
-            await navigator.mediaDevices.getUserMedia({
-              video: {
-                facingMode: {
-                  ideal: "environment"
-                }
-              },
-              audio: false
-            });
-
-
-          /*
-            We only use this stream to
-            obtain permission.
-
-            MindAR will create its own
-            camera stream afterwards.
-          */
-
-          permissionStream
-            .getTracks()
-            .forEach(
-              track => track.stop()
-            );
-
-
-          status.innerHTML =
-            "Starting scanner...";
-
-
-          /*
-            Wait until A-Frame is loaded.
-          */
-
-          if (!scene.hasLoaded) {
-
-            await new Promise(
-              resolve => {
-
-                scene.addEventListener(
-                  "loaded",
-                  resolve,
-                  { once: true }
-                );
-
-              }
-            );
-
-          }
-
-
-          const mindarSystem =
-            scene.systems["mindar-image"];
-
-
-          if (!mindarSystem) {
-
-            throw new Error(
-              "MindAR system not found"
-            );
-
-          }
-
-
-          await mindarSystem.start();
-
-
-          scannerStarted = true;
-
-
-          startScreen.style.display =
-            "none";
-
-
-          message.innerHTML =
-            "📷 Point your camera at the printed photo";
-
+          arSystem.start();
 
         } catch (error) {
 
           console.error(error);
 
+          alert(
+            "Camera could not start."
+          );
 
           startButton.disabled = false;
-
-
-          status.innerHTML =
-            "❌ Camera could not start";
-
-
-          alert(
-            "Camera could not start.\n\n" +
-            error.name
-          );
 
         }
 
@@ -497,7 +368,25 @@
 
 
     /*
-      PHOTO DETECTED
+      MindAR READY
+    */
+
+    scene.addEventListener(
+      "arReady",
+      function () {
+
+        startScreen.style.display =
+          "none";
+
+        message.innerHTML =
+          "📷 Point your camera at the printed photo";
+
+      }
+    );
+
+
+    /*
+      PHOTO FOUND
     */
 
     target.addEventListener(
@@ -522,13 +411,6 @@
 
         video.currentTime = 0;
 
-
-        /*
-          Start muted because
-          mobile browsers block
-          autoplay with sound.
-        */
-
         video.muted = true;
 
 
@@ -548,10 +430,9 @@
 
 
     /*
-      IMPORTANT
+      PHOTO LOST
 
-      Photo-வை camera-விலிருந்து
-      எடுத்தாலும் video STOP ஆகாது.
+      Video MUST continue.
     */
 
     target.addEventListener(
@@ -559,8 +440,6 @@
       function () {
 
         message.innerHTML = "";
-
-        // DO NOT pause video.
 
       }
     );
@@ -638,18 +517,14 @@
 
         video.muted = true;
 
-
         videoScreen.style.display =
           "none";
-
 
         soundButton.style.display =
           "block";
 
-
         replayButton.style.display =
           "none";
-
 
         message.innerHTML =
           "📷 Point your camera at the printed photo";
@@ -659,7 +534,6 @@
 
   </script>
 
-
 </body>
 
-  </html>
+</html>
