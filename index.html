@@ -729,40 +729,25 @@
 
 
         /* ============================
-           START BUTTON
-           ============================ */
+   START BUTTON
+   ============================ */
 
-        startButton.addEventListener(
-        startButton.onclick = function () {
+startButton.addEventListener(
+  "click",
+  function () {
 
-  alert("BUTTON WORKING");
+    console.log(
+      "START SCANNER clicked"
+    );
 
-  document.getElementById("startScreen").style.display = "none";
+    startScreen.style.display =
+      "none";
 
-};
+    message.innerHTML =
+      "📷 Point your camera at the printed photo";
 
-
-            /*
-              IMPORTANT:
-
-              Camera is already running
-              through MindAR autoStart.
-
-              This button only removes
-              the premium opening screen.
-            */
-
-
-            startScreen.style.display =
-              "none";
-
-
-            message.innerHTML =
-              "📷 Point your camera at the printed photo";
-
-          }
-        );
-
+  }
+);
 
         /* ============================
            PHOTO DETECTED
