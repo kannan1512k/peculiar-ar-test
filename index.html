@@ -2,21 +2,26 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
 
-  <meta name="viewport"
-        content="width=device-width,
-        initial-scale=1.0,
-        maximum-scale=1.0,
-        user-scalable=no">
+  <meta
+    name="viewport"
+    content="width=device-width,
+    initial-scale=1.0,
+    maximum-scale=1.0,
+    user-scalable=no">
 
   <title>Peculiar Print Hub AR</title>
 
-  <!-- A-Frame -->
+
+  <!-- A-FRAME -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 
-  <!-- MindAR -->
+
+  <!-- MINDAR -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
 
   <style>
 
@@ -25,112 +30,219 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+
     html,
     body {
+
       margin: 0;
       padding: 0;
+
       width: 100%;
       height: 100%;
+
       overflow: hidden;
+
       background: #000;
-      font-family: Arial, sans-serif;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
     }
 
-    /* =========================
+
+    /* =================================
        PREMIUM START SCREEN
-       ========================= */
+       ================================= */
 
     #startScreen {
+
       position: fixed;
+
       inset: 0;
+
       z-index: 99999;
 
       display: flex;
+
       flex-direction: column;
+
       align-items: center;
+
       justify-content: center;
 
       text-align: center;
 
+      color: white;
+
       background:
         radial-gradient(
           circle at center,
-          #202020 0%,
-          #090909 45%,
+          #242424 0%,
+          #0b0b0b 45%,
           #000000 100%
         );
-
-      color: white;
     }
+
 
     #startScreen h1 {
+
       margin: 0 0 12px;
+
       font-size: 30px;
+
       font-weight: 700;
-      letter-spacing: 0.5px;
+
+      letter-spacing: 0.3px;
     }
 
+
     #startScreen .subtitle {
-      margin: 0 25px 35px;
-      color: #bdbdbd;
+
+      margin:
+
+        0 25px 36px;
+
+      color:
+
+        rgba(
+          255,
+          255,
+          255,
+          0.72
+        );
+
       font-size: 16px;
+
       line-height: 1.6;
     }
 
-    #startButton {
-      min-width: 230px;
-      height: 58px;
 
-      border: 1px solid rgba(255,255,255,0.25);
+    /* =================================
+       START BUTTON
+       ================================= */
+
+    #startButton {
+
+      min-width: 235px;
+
+      height: 60px;
+
+      padding: 0 28px;
+
+      border: 1px solid
+        rgba(
+          255,
+          255,
+          255,
+          0.35
+        );
+
       border-radius: 40px;
 
-      background: linear-gradient(
-        135deg,
-        #ffffff,
-        #dddddd
-      );
+      background:
+        linear-gradient(
+          135deg,
+          #ffffff,
+          #dedede
+        );
 
       color: #000;
 
       font-size: 17px;
+
       font-weight: 700;
 
       box-shadow:
-        0 10px 35px rgba(0,0,0,0.5);
+        0 12px 35px
+        rgba(
+          0,
+          0,
+          0,
+          0.55
+        );
 
       cursor: pointer;
 
       touch-action: manipulation;
+
+      transition:
+        transform 0.15s ease,
+        opacity 0.2s ease;
     }
+
 
     #startButton:active {
-      transform: scale(0.96);
+
+      transform:
+        scale(0.96);
     }
+
 
     #startButton:disabled {
-      opacity: 0.6;
+
+      opacity: 0.45;
+
+      cursor: default;
     }
 
-    #brand {
-      position: absolute;
-      bottom: 35px;
+
+    /* =================================
+       LOADING TEXT
+       ================================= */
+
+    #loadingText {
+
+      margin-top: 18px;
 
       font-size: 13px;
-      letter-spacing: 1.5px;
 
-      color: rgba(255,255,255,0.45);
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          0.45
+        );
     }
 
 
-    /* =========================
-       STATUS MESSAGE
-       ========================= */
+    /* =================================
+       BRAND
+       ================================= */
+
+    #brand {
+
+      position: absolute;
+
+      bottom: 34px;
+
+      font-size: 12px;
+
+      letter-spacing: 2px;
+
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          0.35
+        );
+    }
+
+
+    /* =================================
+       CAMERA STATUS
+       ================================= */
 
     #message {
+
       position: fixed;
 
       top: 20px;
+
       left: 15px;
+
       right: 15px;
 
       text-align: center;
@@ -138,6 +250,7 @@
       color: white;
 
       font-size: 17px;
+
       font-weight: 600;
 
       z-index: 5000;
@@ -147,15 +260,16 @@
     }
 
 
-    /* =========================
+    /* =================================
        FULL SCREEN VIDEO
-       ========================= */
+       ================================= */
 
     #videoScreen {
 
       display: none;
 
       position: fixed;
+
       inset: 0;
 
       z-index: 90000;
@@ -163,12 +277,15 @@
       background: #000;
 
       align-items: center;
+
       justify-content: center;
     }
+
 
     #mainVideo {
 
       width: 100%;
+
       height: 100%;
 
       object-fit: contain;
@@ -179,34 +296,50 @@
     }
 
 
-    /* =========================
+    /* =================================
        SOUND BUTTON
-       ========================= */
+       ================================= */
 
     #soundButton {
 
       position: absolute;
 
       left: 50%;
+
       bottom: 45px;
 
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
 
-      padding: 15px 28px;
+      padding:
+        15px 28px;
 
       border: none;
 
       border-radius: 40px;
 
-      background: rgba(255,255,255,0.95);
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.96
+        );
 
       color: #000;
 
       font-size: 16px;
+
       font-weight: 700;
 
       box-shadow:
-        0 8px 30px rgba(0,0,0,0.5);
+        0 8px 30px
+        rgba(
+          0,
+          0,
+          0,
+          0.5
+        );
 
       z-index: 90010;
 
@@ -214,9 +347,9 @@
     }
 
 
-    /* =========================
+    /* =================================
        REPLAY BUTTON
-       ========================= */
+       ================================= */
 
     #replayButton {
 
@@ -225,25 +358,41 @@
       position: absolute;
 
       left: 50%;
+
       bottom: 45px;
 
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
 
-      padding: 15px 28px;
+      padding:
+        15px 28px;
 
       border: none;
 
       border-radius: 40px;
 
-      background: rgba(255,255,255,0.95);
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.96
+        );
 
       color: #000;
 
       font-size: 16px;
+
       font-weight: 700;
 
       box-shadow:
-        0 8px 30px rgba(0,0,0,0.5);
+        0 8px 30px
+        rgba(
+          0,
+          0,
+          0,
+          0.5
+        );
 
       z-index: 90010;
 
@@ -251,25 +400,40 @@
     }
 
 
-    /* =========================
+    /* =================================
        CLOSE BUTTON
-       ========================= */
+       ================================= */
 
     #closeButton {
 
       position: absolute;
 
       top: 22px;
+
       right: 18px;
 
       width: 48px;
+
       height: 48px;
 
       border-radius: 50%;
 
-      border: 1px solid rgba(255,255,255,0.5);
+      border:
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          0.5
+        );
 
-      background: rgba(0,0,0,0.65);
+      background:
+        rgba(
+          0,
+          0,
+          0,
+          0.65
+        );
 
       color: white;
 
@@ -281,9 +445,9 @@
     }
 
 
-    /* =========================
+    /* =================================
        ERROR BOX
-       ========================= */
+       ================================= */
 
     #errorBox {
 
@@ -292,16 +456,24 @@
       position: fixed;
 
       left: 15px;
+
       right: 15px;
+
       bottom: 25px;
 
-      padding: 15px;
+      padding: 16px;
 
-      background: rgba(120,0,0,0.92);
+      background:
+        rgba(
+          130,
+          0,
+          0,
+          0.95
+        );
 
       color: white;
 
-      border-radius: 12px;
+      border-radius: 14px;
 
       font-size: 13px;
 
@@ -313,60 +485,94 @@
     }
 
 
-    /* Hide A-Frame VR UI */
+    /* Hide A-Frame VR button */
 
     .a-enter-vr {
+
       display: none !important;
     }
 
   </style>
+
 </head>
 
 
 <body>
 
 
-  <!-- =========================
-       START SCREEN
-       ========================= -->
+  <!-- =================================
+       PREMIUM START SCREEN
+       ================================= -->
 
   <div id="startScreen">
 
-    <h1>📸 Peculiar AR</h1>
+    <h1>
+      📸 Peculiar AR
+    </h1>
+
 
     <p class="subtitle">
+
       Scan the printed photo<br>
+
       to unlock its story
+
     </p>
 
-    <button id="startButton">
+
+    <button
+      id="startButton"
+      type="button"
+      disabled>
+
       📷 START SCANNER
+
     </button>
 
+
+    <div id="loadingText">
+
+      Preparing scanner...
+
+    </div>
+
+
     <div id="brand">
+
       PECULIAR PRINT HUB
+
     </div>
 
   </div>
 
 
-  <!-- STATUS -->
+
+  <!-- =================================
+       CAMERA MESSAGE
+       ================================= -->
 
   <div id="message">
-    Ready to scan
+
+    Preparing scanner...
+
   </div>
 
 
-  <!-- ERROR -->
+
+  <!-- =================================
+       ERROR
+       ================================= -->
 
   <div id="errorBox"></div>
 
 
-  <!-- =========================
-       FULL SCREEN VIDEO
-       ========================= -->
+
+  <!-- =================================
+       VIDEO SCREEN
+       ================================= -->
 
   <div id="videoScreen">
+
 
     <video
       id="mainVideo"
@@ -378,26 +584,40 @@
     </video>
 
 
-    <button id="soundButton">
+    <button
+      id="soundButton"
+      type="button">
+
       🔊 TAP FOR SOUND
+
     </button>
 
 
-    <button id="replayButton">
+    <button
+      id="replayButton"
+      type="button">
+
       ▶️ PLAY AGAIN
+
     </button>
 
 
-    <button id="closeButton">
+    <button
+      id="closeButton"
+      type="button">
+
       ✕
+
     </button>
+
 
   </div>
 
 
-  <!-- =========================
-       MINDAR
-       ========================= -->
+
+  <!-- =================================
+       MINDAR SCENE
+       ================================= -->
 
   <a-scene
 
@@ -415,420 +635,679 @@
       physicallyCorrectLights;
     "
 
-    vr-mode-ui="enabled: false"
+    vr-mode-ui="
+      enabled: false;
+    "
 
-    device-orientation-permission-ui="enabled: false"
+    device-orientation-permission-ui="
+      enabled: false;
+    ">
 
-    embedded>
 
     <a-camera
+
       position="0 0 0"
-      look-controls="enabled: false">
+
+      look-controls="
+        enabled: false;
+      ">
+
     </a-camera>
 
 
     <a-entity
+
       id="photoTarget"
-      mindar-image-target="targetIndex: 0">
+
+      mindar-image-target="
+        targetIndex: 0;
+      ">
+
     </a-entity>
+
 
   </a-scene>
 
 
-  <!-- =========================
+
+  <!-- =================================
        JAVASCRIPT
-       ========================= -->
+       ================================= -->
 
   <script>
 
-    document.addEventListener("DOMContentLoaded", function () {
 
-      const scene =
-        document.getElementById("arScene");
-
-      const startScreen =
-        document.getElementById("startScreen");
-
-      const startButton =
-        document.getElementById("startButton");
-
-      const message =
-        document.getElementById("message");
-
-      const target =
-        document.getElementById("photoTarget");
-
-      const videoScreen =
-        document.getElementById("videoScreen");
-
-      const video =
-        document.getElementById("mainVideo");
-
-      const soundButton =
-        document.getElementById("soundButton");
-
-      const replayButton =
-        document.getElementById("replayButton");
-
-      const closeButton =
-        document.getElementById("closeButton");
-
-      const errorBox =
-        document.getElementById("errorBox");
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
 
 
-      let arSystem = null;
+        /* =============================
+           ELEMENTS
+           ============================= */
 
-      let arLoaded = false;
-
-      let videoStarted = false;
-
-
-      /* =========================
-         WAIT FOR A-FRAME
-         ========================= */
-
-      scene.addEventListener("loaded", function () {
-
-        console.log("A-Frame loaded");
-
-        arSystem =
-          scene.systems["mindar-image-system"];
-
-        if (arSystem) {
-
-          console.log(
-            "MindAR system ready"
+        const scene =
+          document.getElementById(
+            "arScene"
           );
 
-          startButton.disabled = false;
 
-        } else {
-
-          showError(
-            "MindAR system was not found."
+        const startScreen =
+          document.getElementById(
+            "startScreen"
           );
 
-        }
 
-      });
-
-
-      /* =========================
-         ERROR DISPLAY
-         ========================= */
-
-      function showError(text) {
-
-        console.error(text);
-
-        errorBox.innerHTML =
-          "⚠️ " + text;
-
-        errorBox.style.display =
-          "block";
-
-      }
+        const startButton =
+          document.getElementById(
+            "startButton"
+          );
 
 
-      /* =========================
-         START SCANNER
-         ========================= */
+        const loadingText =
+          document.getElementById(
+            "loadingText"
+          );
 
-      startButton.addEventListener(
-        "click",
-        function () {
 
-          errorBox.style.display =
-            "none";
+        const message =
+          document.getElementById(
+            "message"
+          );
 
-          if (!arSystem) {
 
-            showError(
-              "Scanner is still loading. Please wait 2 seconds and try again."
-            );
+        const target =
+          document.getElementById(
+            "photoTarget"
+          );
 
-            return;
+
+        const videoScreen =
+          document.getElementById(
+            "videoScreen"
+          );
+
+
+        const video =
+          document.getElementById(
+            "mainVideo"
+          );
+
+
+        const soundButton =
+          document.getElementById(
+            "soundButton"
+          );
+
+
+        const replayButton =
+          document.getElementById(
+            "replayButton"
+          );
+
+
+        const closeButton =
+          document.getElementById(
+            "closeButton"
+          );
+
+
+        const errorBox =
+          document.getElementById(
+            "errorBox"
+          );
+
+
+
+        /* =============================
+           VARIABLES
+           ============================= */
+
+        let arSystem = null;
+
+        let scannerReady = false;
+
+        let scannerStarting = false;
+
+
+
+        /* =============================
+           FIND MINDAR SYSTEM
+           ============================= */
+
+        function checkMindAR() {
+
+
+          if (arSystem) {
+
+            return true;
 
           }
 
 
-          startButton.disabled = true;
+          if (
+            scene.systems &&
+            scene.systems[
+              "mindar-image-system"
+            ]
+          ) {
 
-          startButton.innerHTML =
-            "⏳ STARTING CAMERA...";
+            arSystem =
+              scene.systems[
+                "mindar-image-system"
+              ];
 
-          message.innerHTML =
-            "📷 Starting camera...";
-
-
-          try {
-
-            arSystem.start();
-
-          } catch (error) {
-
-            console.error(
-              "MindAR start error:",
-              error
+            console.log(
+              "MindAR system found"
             );
 
-            showError(
-              "Camera start error: " +
-              error.message
-            );
+
+            scannerReady = true;
+
 
             startButton.disabled =
               false;
 
-            startButton.innerHTML =
-              "📷 START SCANNER";
+
+            loadingText.innerHTML =
+              "Scanner ready";
+
+
+            message.innerHTML =
+              "Ready to scan";
+
+
+            return true;
 
           }
 
+
+          return false;
+
         }
-      );
 
 
-      /* =========================
-         AR READY
-         ========================= */
 
-      scene.addEventListener(
-        "arReady",
-        function () {
+        /* =============================
+           WAIT FOR MINDAR
+           ============================= */
 
-          console.log(
-            "MindAR is ready"
+        const systemChecker =
+          setInterval(
+            function () {
+
+
+              if (
+                checkMindAR()
+              ) {
+
+                clearInterval(
+                  systemChecker
+                );
+
+              }
+
+
+            },
+            200
           );
 
-          arLoaded = true;
-
-          startScreen.style.display =
-            "none";
-
-          message.innerHTML =
-            "📷 Point your camera at the printed photo";
-
-        }
-      );
 
 
-      /* =========================
-         AR ERROR
-         ========================= */
+        /* =============================
+           A-FRAME LOADED
+           ============================= */
 
-      scene.addEventListener(
-        "arError",
-        function (event) {
+        scene.addEventListener(
+          "loaded",
+          function () {
+
+
+            console.log(
+              "A-Frame loaded"
+            );
+
+
+            checkMindAR();
+
+
+          }
+        );
+
+
+
+        /* =============================
+           ERROR FUNCTION
+           ============================= */
+
+        function showError(
+          text
+        ) {
+
 
           console.error(
-            "MindAR AR Error:",
-            event
-          );
-
-          showError(
-            "Camera could not start. " +
-            "Please check camera permission and try again."
+            text
           );
 
 
-          startButton.disabled =
-            false;
-
-          startButton.innerHTML =
-            "📷 START SCANNER";
-
-        }
-      );
+          errorBox.innerHTML =
+            "⚠️ " + text;
 
 
-      /* =========================
-         PHOTO DETECTED
-         ========================= */
-
-      target.addEventListener(
-        "targetFound",
-        function () {
-
-          console.log(
-            "PHOTO DETECTED"
-          );
-
-
-          message.innerHTML =
-            "🎬 VIDEO PLAYING";
-
-
-          videoScreen.style.display =
-            "flex";
-
-
-          soundButton.style.display =
+          errorBox.style.display =
             "block";
 
 
-          replayButton.style.display =
-            "none";
+        }
 
 
-          videoStarted = true;
+
+        /* =============================
+           START SCANNER
+           ============================= */
+
+        startButton.addEventListener(
+          "click",
+          function () {
 
 
-          video.currentTime = 0;
+            errorBox.style.display =
+              "none";
 
-          video.muted = true;
+
+            if (
+              scannerStarting
+            ) {
+
+              return;
+
+            }
 
 
-          video.play()
-            .then(function () {
+            if (
+              !checkMindAR()
+            ) {
 
-              console.log(
-                "Video playing"
-              );
 
-            })
-            .catch(function (error) {
+              loadingText.innerHTML =
+                "⏳ Preparing scanner...";
 
-              console.log(
-                "Autoplay waiting:",
+
+              return;
+
+            }
+
+
+            scannerStarting =
+              true;
+
+
+            startButton.disabled =
+              true;
+
+
+            startButton.innerHTML =
+              "⏳ STARTING...";
+
+
+            loadingText.innerHTML =
+              "Opening camera...";
+
+
+            message.innerHTML =
+              "📷 Starting camera...";
+
+
+            console.log(
+              "Starting MindAR..."
+            );
+
+
+            try {
+
+
+              arSystem.start();
+
+
+            }
+            catch (error) {
+
+
+              console.error(
+                "START ERROR:",
                 error
               );
 
-            });
 
-        }
-      );
-
-
-      /* =========================
-         PHOTO LOST
-         ========================= */
-
-      target.addEventListener(
-        "targetLost",
-        function () {
-
-          console.log(
-            "PHOTO LOST"
-          );
+              scannerStarting =
+                false;
 
 
-          /*
-             IMPORTANT:
-
-             DO NOT STOP VIDEO.
-
-             The video continues playing
-             even when camera moves away
-             from printed photo.
-          */
-
-        }
-      );
+              startButton.disabled =
+                false;
 
 
-      /* =========================
-         SOUND
-         ========================= */
-
-      soundButton.addEventListener(
-        "click",
-        function () {
-
-          video.muted = false;
-
-          video.play();
-
-          soundButton.style.display =
-            "none";
-
-        }
-      );
+              startButton.innerHTML =
+                "📷 START SCANNER";
 
 
-      /* =========================
-         VIDEO FINISHED
-         ========================= */
-
-      video.addEventListener(
-        "ended",
-        function () {
-
-          console.log(
-            "Video finished"
-          );
+              loadingText.innerHTML =
+                "Scanner ready";
 
 
-          soundButton.style.display =
-            "none";
+              showError(
+                "Camera start error: " +
+                (
+                  error.message ||
+                  error
+                )
+              );
 
 
-          replayButton.style.display =
-            "block";
-
-        }
-      );
+            }
 
 
-      /* =========================
-         REPLAY
-         ========================= */
-
-      replayButton.addEventListener(
-        "click",
-        function () {
-
-          video.currentTime = 0;
-
-          video.muted = false;
-
-          video.play();
+          }
+        );
 
 
-          replayButton.style.display =
-            "none";
 
-        }
-      );
+        /* =============================
+           AR READY
+           ============================= */
 
-
-      /* =========================
-         CLOSE VIDEO
-         ========================= */
-
-      closeButton.addEventListener(
-        "click",
-        function () {
-
-          video.pause();
-
-          video.currentTime = 0;
-
-          video.muted = true;
+        scene.addEventListener(
+          "arReady",
+          function () {
 
 
-          videoScreen.style.display =
-            "none";
+            console.log(
+              "MindAR READY"
+            );
 
 
-          soundButton.style.display =
-            "block";
+            scannerStarting =
+              false;
 
 
-          replayButton.style.display =
-            "none";
+            startScreen.style.display =
+              "none";
 
 
-          message.innerHTML =
-            "📷 Point your camera at the printed photo";
+            message.innerHTML =
+              "📷 Point your camera at the printed photo";
 
-        }
-      );
 
-    });
+          }
+        );
+
+
+
+        /* =============================
+           AR ERROR
+           ============================= */
+
+        scene.addEventListener(
+          "arError",
+          function (event) {
+
+
+            console.error(
+              "MindAR ERROR:",
+              event
+            );
+
+
+            scannerStarting =
+              false;
+
+
+            startButton.disabled =
+              false;
+
+
+            startButton.innerHTML =
+              "📷 START SCANNER";
+
+
+            loadingText.innerHTML =
+              "Scanner ready";
+
+
+            showError(
+              "MindAR could not start the camera. Please check browser camera permission."
+            );
+
+
+          }
+        );
+
+
+
+        /* =============================
+           PHOTO FOUND
+           ============================= */
+
+        target.addEventListener(
+          "targetFound",
+          function () {
+
+
+            console.log(
+              "PHOTO FOUND"
+            );
+
+
+            message.innerHTML =
+              "🎬 VIDEO PLAYING";
+
+
+            videoScreen.style.display =
+              "flex";
+
+
+            soundButton.style.display =
+              "block";
+
+
+            replayButton.style.display =
+              "none";
+
+
+            video.currentTime =
+              0;
+
+
+            video.muted =
+              true;
+
+
+            video.play()
+              .then(
+                function () {
+
+
+                  console.log(
+                    "VIDEO PLAYING"
+                  );
+
+
+                }
+              )
+              .catch(
+                function (error) {
+
+
+                  console.log(
+                    "Autoplay waiting:",
+                    error
+                  );
+
+
+                }
+              );
+
+
+          }
+        );
+
+
+
+        /* =============================
+           PHOTO LOST
+           ============================= */
+
+        target.addEventListener(
+          "targetLost",
+          function () {
+
+
+            console.log(
+              "PHOTO LOST"
+            );
+
+
+            /*
+              IMPORTANT:
+
+              Do NOT pause video.
+
+              Video continues even if
+              camera moves away.
+            */
+
+
+          }
+        );
+
+
+
+        /* =============================
+           SOUND
+           ============================= */
+
+        soundButton.addEventListener(
+          "click",
+          function () {
+
+
+            video.muted =
+              false;
+
+
+            video.play();
+
+
+            soundButton.style.display =
+              "none";
+
+
+          }
+        );
+
+
+
+        /* =============================
+           VIDEO END
+           ============================= */
+
+        video.addEventListener(
+          "ended",
+          function () {
+
+
+            console.log(
+              "VIDEO ENDED"
+            );
+
+
+            soundButton.style.display =
+              "none";
+
+
+            replayButton.style.display =
+              "block";
+
+
+          }
+        );
+
+
+
+        /* =============================
+           REPLAY
+           ============================= */
+
+        replayButton.addEventListener(
+          "click",
+          function () {
+
+
+            video.currentTime =
+              0;
+
+
+            video.muted =
+              false;
+
+
+            video.play();
+
+
+            replayButton.style.display =
+              "none";
+
+
+          }
+        );
+
+
+
+        /* =============================
+           CLOSE VIDEO
+           ============================= */
+
+        closeButton.addEventListener(
+          "click",
+          function () {
+
+
+            video.pause();
+
+
+            video.currentTime =
+              0;
+
+
+            video.muted =
+              true;
+
+
+            videoScreen.style.display =
+              "none";
+
+
+            soundButton.style.display =
+              "block";
+
+
+            replayButton.style.display =
+              "none";
+
+
+            message.innerHTML =
+              "📷 Point your camera at the printed photo";
+
+
+          }
+        );
+
+
+      }
+    );
 
   </script>
+
 
 </body>
 
