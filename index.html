@@ -5,21 +5,19 @@
 
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width,
-    initial-scale=1.0,
-    maximum-scale=1.0,
-    user-scalable=no">
+  <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1.0,
+        maximum-scale=1.0,
+        user-scalable=no">
 
   <title>Peculiar Print Hub AR</title>
 
-  <!-- A-FRAME -->
+  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 
-  <!-- MINDAR -->
+  <!-- MindAR -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-
 
   <style>
 
@@ -39,171 +37,112 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-
-    /* ==============================
+    /* =========================
        PREMIUM START SCREEN
-       ============================== */
+       ========================= */
 
     #startScreen {
-
       position: fixed;
       inset: 0;
-
       z-index: 99999;
 
       display: flex;
       flex-direction: column;
-
       align-items: center;
       justify-content: center;
 
       text-align: center;
 
-      color: #fff;
+      color: white;
 
       background:
         radial-gradient(
           circle at center,
           #252525 0%,
-          #0b0b0b 45%,
-          #000 100%
+          #0c0c0c 45%,
+          #000000 100%
         );
     }
 
-
     #startScreen h1 {
-
       margin: 0 0 12px;
-
       font-size: 30px;
-
       font-weight: 700;
-
-      letter-spacing: 0.3px;
     }
 
-
-    #startScreen .subtitle {
-
-      margin: 0 25px 36px;
-
+    #subtitle {
+      margin: 0 25px 35px;
       color: rgba(255,255,255,0.72);
-
       font-size: 16px;
-
       line-height: 1.6;
     }
 
-
-    /* ==============================
-       START BUTTON
-       ============================== */
-
     #startButton {
-
       min-width: 235px;
-
       height: 60px;
-
       padding: 0 28px;
 
-      border: 1px solid
-        rgba(255,255,255,0.35);
-
+      border: 1px solid rgba(255,255,255,0.35);
       border-radius: 40px;
 
       background:
         linear-gradient(
           135deg,
           #ffffff,
-          #dedede
+          #dddddd
         );
 
       color: #000;
 
       font-size: 17px;
-
       font-weight: 700;
 
       box-shadow:
-        0 12px 35px
-        rgba(0,0,0,0.55);
-
-      cursor: pointer;
+        0 12px 35px rgba(0,0,0,0.55);
 
       touch-action: manipulation;
-
-      transition:
-        transform 0.15s ease,
-        opacity 0.2s ease;
     }
-
 
     #startButton:active {
       transform: scale(0.96);
     }
 
-
     #startButton:disabled {
       opacity: 0.45;
-      cursor: default;
     }
-
-
-    /* ==============================
-       LOADING TEXT
-       ============================== */
 
     #loadingText {
-
       margin-top: 18px;
-
       font-size: 13px;
-
-      color:
-        rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.45);
     }
 
-
-    /* ==============================
-       BRAND
-       ============================== */
-
     #brand {
-
       position: absolute;
-
       bottom: 34px;
 
       font-size: 12px;
-
       letter-spacing: 2px;
 
-      color:
-        rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.35);
     }
 
-
-    /* ==============================
-       MESSAGE
-       ============================== */
+    /* =========================
+       CAMERA MESSAGE
+       ========================= */
 
     #message {
-
       position: fixed;
 
       top: 20px;
-
       left: 15px;
-
       right: 15px;
 
       text-align: center;
 
-      color: #fff;
+      color: white;
 
       font-size: 17px;
-
       font-weight: 600;
 
       z-index: 5000;
@@ -212,17 +151,14 @@
         0 2px 8px #000;
     }
 
-
-    /* ==============================
-       FULL SCREEN VIDEO
-       ============================== */
+    /* =========================
+       VIDEO
+       ========================= */
 
     #videoScreen {
-
       display: none;
 
       position: fixed;
-
       inset: 0;
 
       z-index: 90000;
@@ -230,176 +166,99 @@
       background: #000;
 
       align-items: center;
-
       justify-content: center;
     }
 
-
     #mainVideo {
-
       width: 100%;
-
       height: 100%;
 
       object-fit: contain;
 
       background: #000;
-
-      display: block;
     }
 
-
-    /* ==============================
-       SOUND BUTTON
-       ============================== */
+    /* =========================
+       SOUND
+       ========================= */
 
     #soundButton {
-
       position: absolute;
 
       left: 50%;
-
       bottom: 45px;
 
-      transform:
-        translateX(-50%);
+      transform: translateX(-50%);
 
       padding: 15px 28px;
 
       border: none;
-
       border-radius: 40px;
 
-      background:
-        rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.96);
 
       color: #000;
 
       font-size: 16px;
-
       font-weight: 700;
 
-      box-shadow:
-        0 8px 30px
-        rgba(0,0,0,0.5);
-
       z-index: 90010;
-
-      touch-action: manipulation;
     }
 
-
-    /* ==============================
+    /* =========================
        REPLAY
-       ============================== */
+       ========================= */
 
     #replayButton {
-
       display: none;
 
       position: absolute;
 
       left: 50%;
-
       bottom: 45px;
 
-      transform:
-        translateX(-50%);
+      transform: translateX(-50%);
 
       padding: 15px 28px;
 
       border: none;
-
       border-radius: 40px;
 
-      background:
-        rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.96);
 
       color: #000;
 
       font-size: 16px;
-
       font-weight: 700;
 
-      box-shadow:
-        0 8px 30px
-        rgba(0,0,0,0.5);
-
       z-index: 90010;
-
-      touch-action: manipulation;
     }
 
-
-    /* ==============================
+    /* =========================
        CLOSE
-       ============================== */
+       ========================= */
 
     #closeButton {
-
       position: absolute;
 
       top: 22px;
-
       right: 18px;
 
       width: 48px;
-
       height: 48px;
 
       border-radius: 50%;
 
-      border:
-        1px solid
-        rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.5);
 
-      background:
-        rgba(0,0,0,0.65);
+      background: rgba(0,0,0,0.65);
 
       color: white;
 
       font-size: 22px;
 
       z-index: 90010;
-
-      touch-action: manipulation;
     }
-
-
-    /* ==============================
-       ERROR
-       ============================== */
-
-    #errorBox {
-
-      display: none;
-
-      position: fixed;
-
-      left: 15px;
-
-      right: 15px;
-
-      bottom: 25px;
-
-      padding: 16px;
-
-      background:
-        rgba(130,0,0,0.95);
-
-      color: white;
-
-      border-radius: 14px;
-
-      font-size: 13px;
-
-      line-height: 1.5;
-
-      z-index: 999999;
-
-      text-align: center;
-    }
-
 
     .a-enter-vr {
       display: none !important;
@@ -412,76 +271,48 @@
 
 <body>
 
-
-  <!-- =================================
-       PREMIUM START SCREEN
-       ================================= -->
+  <!-- =========================
+       PREMIUM OPENING SCREEN
+       ========================= -->
 
   <div id="startScreen">
 
-    <h1>
-      📸 Peculiar AR
-    </h1>
+    <h1>📸 Peculiar AR</h1>
 
-    <p class="subtitle">
-
+    <p id="subtitle">
       Scan the printed photo<br>
-
       to unlock its story
-
     </p>
 
-
-    <button
-      id="startButton"
-      type="button"
-      disabled>
-
+    <button id="startButton" type="button" disabled>
       📷 START SCANNER
-
     </button>
 
-
     <div id="loadingText">
-
       Preparing scanner...
-
     </div>
-
 
     <div id="brand">
-
       PECULIAR PRINT HUB
-
     </div>
 
   </div>
 
 
-  <!-- =================================
-       CAMERA MESSAGE
-       ================================= -->
+  <!-- =========================
+       STATUS
+       ========================= -->
 
   <div id="message">
-
     Preparing scanner...
-
   </div>
 
 
-  <!-- =================================
-       ERROR
-       ================================= -->
-
-  <div id="errorBox"></div>
-
-
-  <!-- =================================
+  <!-- =========================
        FULL SCREEN VIDEO
-       ================================= -->
+       ========================= -->
 
   <div id="videoScreen">
-
 
     <video
       id="mainVideo"
@@ -492,42 +323,26 @@
       muted>
     </video>
 
-
-    <button
-      id="soundButton"
-      type="button">
-
+    <button id="soundButton" type="button">
       🔊 TAP FOR SOUND
-
     </button>
 
-
-    <button
-      id="replayButton"
-      type="button">
-
+    <button id="replayButton" type="button">
       ▶️ PLAY AGAIN
-
     </button>
 
-
-    <button
-      id="closeButton"
-      type="button">
-
+    <button id="closeButton" type="button">
       ✕
-
     </button>
 
   </div>
 
 
-  <!-- =================================
+  <!-- =========================
        MINDAR
-       ================================= -->
+       ========================= -->
 
   <a-scene
-
     id="arScene"
 
     mindar-image="
@@ -542,13 +357,9 @@
       physicallyCorrectLights;
     "
 
-    vr-mode-ui="
-      enabled: false;
-    "
+    vr-mode-ui="enabled: false"
 
-    device-orientation-permission-ui="
-      enabled: false;
-    ">
+    device-orientation-permission-ui="enabled: false">
 
 
     <a-camera
@@ -559,403 +370,275 @@
 
     <a-entity
       id="photoTarget"
-      mindar-image-target="
-        targetIndex: 0;
-      ">
+      mindar-image-target="targetIndex: 0">
     </a-entity>
 
 
   </a-scene>
 
 
-  <!-- =================================
+  <!-- =========================
        JAVASCRIPT
-       ================================= -->
+       ========================= -->
 
   <script>
 
-    document.addEventListener(
-      "DOMContentLoaded",
+    const scene =
+      document.getElementById("arScene");
+
+    const startScreen =
+      document.getElementById("startScreen");
+
+    const startButton =
+      document.getElementById("startButton");
+
+    const loadingText =
+      document.getElementById("loadingText");
+
+    const message =
+      document.getElementById("message");
+
+    const target =
+      document.getElementById("photoTarget");
+
+    const videoScreen =
+      document.getElementById("videoScreen");
+
+    const video =
+      document.getElementById("mainVideo");
+
+    const soundButton =
+      document.getElementById("soundButton");
+
+    const replayButton =
+      document.getElementById("replayButton");
+
+    const closeButton =
+      document.getElementById("closeButton");
+
+
+    /* =========================
+       MINDAR READY
+       ========================= */
+
+    scene.addEventListener(
+      "arReady",
       function () {
 
+        console.log("MindAR ready");
 
-        const scene =
-          document.getElementById(
-            "arScene"
-          );
+        loadingText.textContent =
+          "Scanner ready";
 
+        message.textContent =
+          "📷 Ready to scan";
 
-        const startScreen =
-          document.getElementById(
-            "startScreen"
-          );
+        startButton.disabled = false;
 
-
-        const startButton =
-          document.getElementById(
-            "startButton"
-          );
-
-
-        const loadingText =
-          document.getElementById(
-            "loadingText"
-          );
-
-
-        const message =
-          document.getElementById(
-            "message"
-          );
-
-
-        const target =
-          document.getElementById(
-            "photoTarget"
-          );
-
-
-        const videoScreen =
-          document.getElementById(
-            "videoScreen"
-          );
-
-
-        const video =
-          document.getElementById(
-            "mainVideo"
-          );
-
-
-        const soundButton =
-          document.getElementById(
-            "soundButton"
-          );
-
-
-        const replayButton =
-          document.getElementById(
-            "replayButton"
-          );
-
-
-        const closeButton =
-          document.getElementById(
-            "closeButton"
-          );
-
-
-        const errorBox =
-          document.getElementById(
-            "errorBox"
-          );
-
-
-        /* ============================
-           A-FRAME / MINDAR READY
-           ============================ */
-
-        scene.addEventListener(
-          "loaded",
-          function () {
-
-            console.log(
-              "A-Frame loaded"
-            );
-
-          }
-        );
-
-
-        /* ============================
-           AR READY
-           ============================ */
-
-        scene.addEventListener(
-          "arReady",
-          function () {
-
-            console.log(
-              "MindAR camera ready"
-            );
-
-
-            loadingText.innerHTML =
-              "Scanner ready";
-
-
-            message.innerHTML =
-              "📷 Ready — tap START SCANNER";
-
-
-            startButton.disabled =
-              false;
-
-          }
-        );
-
-
-        /* ============================
-           AR ERROR
-           ============================ */
-
-        scene.addEventListener(
-          "arError",
-          function (event) {
-
-            console.error(
-              "MindAR error:",
-              event
-            );
-
-
-            loadingText.innerHTML =
-              "Camera could not start";
-
-
-            message.innerHTML =
-              "Camera error";
-
-
-            errorBox.innerHTML =
-              "⚠️ Camera could not start.<br><br>" +
-              "Please check Chrome camera permission.";
-
-            errorBox.style.display =
-              "block";
-
-          }
-        );
-
-
-        /* ============================
-   START BUTTON
-   ============================ */
-
-startButton.addEventListener(
-  "click",
-  function () {
-
-    console.log(
-      "START SCANNER clicked"
+      }
     );
 
-    startScreen.style.display =
-      "none";
 
-    message.innerHTML =
-      "📷 Point your camera at the printed photo";
+    /* =========================
+       MINDAR ERROR
+       ========================= */
 
-  }
-);
+    scene.addEventListener(
+      "arError",
+      function (event) {
 
-        /* ============================
-           PHOTO DETECTED
-           ============================ */
+        console.error(
+          "MindAR error:",
+          event
+        );
 
-        target.addEventListener(
-          "targetFound",
-          function () {
+        loadingText.textContent =
+          "Camera error";
+
+        message.textContent =
+          "⚠️ Camera could not start";
+
+      }
+    );
+
+
+    /* =========================
+       START SCANNER BUTTON
+       ========================= */
+
+    startButton.addEventListener(
+      "click",
+      function () {
+
+        console.log(
+          "START SCANNER clicked"
+        );
+
+        startScreen.style.display =
+          "none";
+
+        message.textContent =
+          "📷 Point your camera at the printed photo";
+
+      }
+    );
+
+
+    /* =========================
+       PHOTO FOUND
+       ========================= */
+
+    target.addEventListener(
+      "targetFound",
+      function () {
+
+        console.log(
+          "PHOTO DETECTED"
+        );
+
+        message.textContent =
+          "🎬 VIDEO PLAYING";
+
+        videoScreen.style.display =
+          "flex";
+
+        soundButton.style.display =
+          "block";
+
+        replayButton.style.display =
+          "none";
+
+        video.currentTime = 0;
+
+        video.muted = true;
+
+        video.play().catch(
+          function (error) {
 
             console.log(
-              "PHOTO DETECTED"
+              "Autoplay waiting:",
+              error
             );
 
-
-            message.innerHTML =
-              "🎬 VIDEO PLAYING";
-
-
-            videoScreen.style.display =
-              "flex";
-
-
-            soundButton.style.display =
-              "block";
-
-
-            replayButton.style.display =
-              "none";
-
-
-            video.currentTime =
-              0;
-
-
-            /*
-              Start muted first because
-              mobile browsers normally
-              block autoplay with sound.
-            */
-
-            video.muted =
-              true;
-
-
-            video.play()
-              .then(
-                function () {
-
-                  console.log(
-                    "Video started"
-                  );
-
-                }
-              )
-              .catch(
-                function (error) {
-
-                  console.log(
-                    "Video waiting:",
-                    error
-                  );
-
-                }
-              );
-
           }
         );
 
-
-        /* ============================
-           PHOTO LOST
-           ============================ */
-
-        target.addEventListener(
-          "targetLost",
-          function () {
-
-            console.log(
-              "PHOTO LOST"
-            );
+      }
+    );
 
 
-            /*
-              VERY IMPORTANT:
+    /* =========================
+       PHOTO LOST
+       ========================= */
 
-              We intentionally DO NOT
-              pause the video here.
+    target.addEventListener(
+      "targetLost",
+      function () {
 
-              So once video starts,
-              moving camera away from
-              the printed photo will NOT
-              stop the video.
-            */
-
-          }
+        console.log(
+          "PHOTO LOST"
         );
 
+        /*
+          DO NOT pause video.
 
-        /* ============================
-           SOUND
-           ============================ */
+          Video continues playing even
+          after camera moves away from
+          the printed photo.
+        */
 
-        soundButton.addEventListener(
-          "click",
-          function () {
-
-            video.muted =
-              false;
-
-
-            video.play();
+      }
+    );
 
 
-            soundButton.style.display =
-              "none";
+    /* =========================
+       SOUND
+       ========================= */
 
-          }
-        );
+    soundButton.addEventListener(
+      "click",
+      function () {
 
+        video.muted = false;
 
-        /* ============================
-           VIDEO ENDED
-           ============================ */
+        video.play();
 
-        video.addEventListener(
-          "ended",
-          function () {
+        soundButton.style.display =
+          "none";
 
-            soundButton.style.display =
-              "none";
-
-
-            replayButton.style.display =
-              "block";
-
-          }
-        );
+      }
+    );
 
 
-        /* ============================
-           REPLAY
-           ============================ */
+    /* =========================
+       VIDEO FINISHED
+       ========================= */
 
-        replayButton.addEventListener(
-          "click",
-          function () {
+    video.addEventListener(
+      "ended",
+      function () {
 
-            video.currentTime =
-              0;
+        soundButton.style.display =
+          "none";
 
+        replayButton.style.display =
+          "block";
 
-            video.muted =
-              false;
-
-
-            video.play();
-
-
-            replayButton.style.display =
-              "none";
-
-          }
-        );
+      }
+    );
 
 
-        /* ============================
-           CLOSE
-           ============================ */
+    /* =========================
+       REPLAY
+       ========================= */
 
-        closeButton.addEventListener(
-          "click",
-          function () {
+    replayButton.addEventListener(
+      "click",
+      function () {
 
-            video.pause();
+        video.currentTime = 0;
 
+        video.muted = false;
 
-            video.currentTime =
-              0;
+        video.play();
 
+        replayButton.style.display =
+          "none";
 
-            video.muted =
-              true;
-
-
-            videoScreen.style.display =
-              "none";
+      }
+    );
 
 
-            soundButton.style.display =
-              "block";
+    /* =========================
+       CLOSE VIDEO
+       ========================= */
 
+    closeButton.addEventListener(
+      "click",
+      function () {
 
-            replayButton.style.display =
-              "none";
+        video.pause();
 
+        video.currentTime = 0;
 
-            message.innerHTML =
-              "📷 Point your camera at the printed photo";
+        video.muted = true;
 
-          }
-        );
+        videoScreen.style.display =
+          "none";
 
+        soundButton.style.display =
+          "block";
+
+        replayButton.style.display =
+          "none";
+
+        message.textContent =
+          "📷 Point your camera at the printed photo";
 
       }
     );
 
   </script>
-
 
 </body>
 
